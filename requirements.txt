@@ -1,0 +1,59 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+import time
+
+def color_nodes(G):
+    color_map = {}
+    colormap=[]
+    # Nodes sorted first, descending based on degree
+    for node in sorted(G, key=lambda x: len(G[x]), reverse=True):
+        neighbor_colors = set(color_map.get(neigh) for neigh in G[node])
+        color_map[node] = next(color for color in range(len(G)) if color not in neighbor_colors)
+    i=0
+    while i<color_map.__len__():
+        if color_map[i]==0:
+            colormap.append('yellow')
+        elif color_map[i]==1:
+            colormap.append('purple')
+        elif color_map[i]==2:
+            colormap.append('lightseagreen')
+        elif color_map[i]==3:
+            colormap.append('blue')
+        elif color_map[i]==4:
+            colormap.append('magenta')
+        elif color_map[i]==5:
+            colormap.append('cyan')
+        elif color_map[i]==6:
+            colormap.append('red')
+        elif color_map[i]==7:
+            colormap.append('blue_violet')
+        elif color_map[i]==8:
+            colormap.append('orange')
+        elif color_map[i]==9:
+            colormap.append('lightsalmon')
+        elif color_map[i]==10:
+            colormap.append('darkcyan')
+        elif color_map[i]==11:
+            colormap.append('green')
+        elif color_map[i]==12:
+            colormap.append('lightpink')
+        elif color_map[i]==13:
+            colormap.append('y')
+        i=i+1
+    plt.subplot(212)
+    plt.title("Result of Greedy Algorithm")
+    nx.draw(G, with_labels=True, font_weight='bold',node_color=colormap)
+
+if __name__ == '__main__':
+    t = time.process_time()
+    # Graph drawing
+    G = nx.Graph()
+    G.add_nodes_from([0,1,2,3,4,5,6,7,8,9,10,11,12])
+    #13 nodes
+    G.add_edges_from([(0,1),(0,2),(1,4),(2,4),(2,3),(3,5),(4,5),(5,7),(5,6),(7,9),(6,8),(8,9),(9,11),(8,10),(10,12),(11,12)])
+    plt.subplot(211)
+    plt.title("Initial Graph")
+    nx.draw_shell(G, with_labels=True, font_weight='bold', node_color='lightgray')
+    color_nodes(G)
+    print("Time elapsed:",time.process_time() - t)
+    plt.show()
